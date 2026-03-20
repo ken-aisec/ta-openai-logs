@@ -1,0 +1,15 @@
+error_code,error_description,severity,remediation
+400,Bad request — invalid or malformed request body,medium,Check request parameters and JSON structure
+401,Unauthorized — invalid or missing API key,high,Verify API key is correct and active in Splunk credential store
+403,Forbidden — insufficient permissions for this resource,high,Check API key scopes and organization permissions
+404,Not found — the requested resource does not exist,low,Verify endpoint URL and resource identifiers
+409,Conflict — resource already exists or state conflict,low,Check for duplicate resource creation
+422,Unprocessable entity — valid JSON but semantic errors,medium,Review request body for logical errors
+429,Rate limit exceeded,medium,Reduce request frequency or request quota increase from OpenAI
+500,Internal server error — OpenAI server-side issue,high,Retry with exponential backoff; check OpenAI status page
+502,Bad gateway,medium,Transient error; retry with backoff
+503,Service unavailable,high,OpenAI service disruption; check status.openai.com
+insufficient_quota,API quota exceeded for this billing period,high,Add credits to OpenAI account or upgrade plan
+invalid_api_key,The provided API key is invalid,high,Re-enter correct API key in TA configuration
+model_not_found,The requested model does not exist or is not available,medium,Update model name in input configuration
+context_length_exceeded,Request exceeded model context window,low,Reduce prompt length

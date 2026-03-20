@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "2.0.0",
+  "info": {
+    "title": "Splunk Add-on for OpenAI Logs",
+    "id": {
+      "group": null,
+      "name": "ta_openai_logs",
+      "version": "1.0.0"
+    },
+    "author": [
+      {
+        "name": "Your Organization",
+        "email": "admin@example.com",
+        "company": "Your Organization"
+      }
+    ],
+    "releaseDate": null,
+    "description": "Collects OpenAI usage and audit logs via the OpenAI API and maps them to Splunk CIM Authentication and Application State data models.",
+    "classification": {
+      "intendedAudience": "IT Ops",
+      "categories": ["Security", "IT Operations"],
+      "developmentStatus": "Production/Stable"
+    },
+    "commonInformationModels": null,
+    "license": {
+      "name": "Apache-2.0",
+      "uri": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "releaseNotes": null
+  },
+  "dependencies": {},
+  "tasks": [],
+  "inputGroups": {},
+  "incompatibleApps": {},
+  "platformRequirements": {
+    "splunk": {
+      "Enterprise": ">=8.0"
+    }
+  },
+  "supportedDeployments": ["_standalone", "_distributed", "_search_head_clustering"],
+  "targetWorkloads": ["_search_heads", "_indexers", "_forwarders"]
+}
