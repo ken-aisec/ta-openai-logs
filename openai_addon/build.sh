@@ -41,4 +41,11 @@ if [[ "${1:-}" == "--package" || "${2:-}" == "--package" ]]; then
 fi
 
 echo ""
+echo "==> Creating tar.gz for Splunk upload..."
+# COPYFILE_DISABLE=1 prevents macOS from adding ._* resource fork files,
+# which cause Splunk to reject the upload with "more than one subdirectory".
+COPYFILE_DISABLE=1 tar czf ta_openai_logs-1.0.0.tar.gz -C output ta_openai_logs
+echo "==> Created: ta_openai_logs-1.0.0.tar.gz"
+
+echo ""
 echo "Done."

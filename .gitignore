@@ -7,3 +7,6 @@ splunk-add-on-for-jira-cloud_240.tgz
 .claude/
 __pycache__/
 *.pyc
+.env
+.sim_state.json
+*.tar.gz

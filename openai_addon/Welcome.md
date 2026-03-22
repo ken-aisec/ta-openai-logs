@@ -1,0 +1,15 @@
+  Hey [@Corlin Palmer](https://linkwell-nodes.slack.com/team/U06QES1NS05) [@Andy](https://linkwell-nodes.slack.com/team/U07FUDPATDF), I realize we've already sent you our pitch, but in case it's helpful, we wanted to reiterate a few points as to why we think we'd be an awesome match for ParaFi -  
+  
+* First and foremost, we've been at this for 5 years, running infrastructure and servicing hundreds of devs with Chainlink jobs since our inception. We aren't newcomers to this space, and you'll be hard-pressed to find a team as passionate, committed, and technically savvy as we are (without costing an arm and a leg).  
+* In the last Chainlink Oracle Olympics, we each tied for 3rd place as solo contestants, losing only to NorthWest Nodes by a single bonus point, who is now a multi-million dollar operation and started with the same grassroots foundation as we did.  
+* The cost of acquiring us is likely a fraction of what other Chainlink nops are asking for. We could use that capital saved to build an incredibly advanced, secure and reliable suite of Chainlink infrastructure, on top of what we've already developed.  
+* If we could shill ourselves a bit - while only a two-man team, our combined technical expertise is a rare combo and extremely strong.  Derek is an incredibly gifted developer who is now a 10x dev thanks to AI. I'm a Splunk SIEM & security professional. I know how to build, deploy, and maintain complex SIEM environments, which is something I'd be surprised if any official Chainlink nop has knowledge of how to deploy or maintain (but likely will require in the future).  
+* We are very flexible and easy to work with. We don't come with legacy baggage or a "this is how we've always done it" mentality. If you guys wanted to work with us to rebuild as an AI-native Chainlink node operation, for example, we'd be genuinely excited about that.  
+* We already have an extremely robust suite of Chainlink infrastructure which we have taken lengthy measures to build in order to ensure it is enterprise grade, with HA/DR capabilities, security, monitoring - the whole 9 yards.  
+* Over the years we've developed relationships and a reputation within the Chainlink community, members within CLL, and other Chainlink node operators. We've also created a decent online presence via our website and blogs, something even official Chainlink node operators aren't doing. We think this will become increasingly important over time, as not only on-chain metrics, but visibility and reputation will be critical to be selected for Chainlink jobs/DONs/services in the future.  
+  
+At the end of the day, you'd be betting on a team that has proven it can build, operate, and stick around when things get quiet and hard. We're hungry, we're ready, and we genuinely won't let you down. Ready to move whenever you are.This is your new *vault*.
+
+Make a note of something, [[create a link]], or try [the Importer](https://help.obsidian.md/Plugins/Importer)!
+
+When you're ready, delete this note and make the vault your own.
