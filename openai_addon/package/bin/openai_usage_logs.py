@@ -1,9 +1,9 @@
 """
 openai_usage_logs.py — Modular input for OpenAI Usage Logs
 
-Polls /organization/usage/completions for daily token-usage buckets.
-Uses date-based checkpointing; re-fetches last REFETCH_DAYS to catch
-late-arriving records.
+Polls /organization/usage/completions and /organization/usage/embeddings
+for hourly token-usage buckets.  Uses date-based checkpointing; re-fetches
+last REFETCH_DAYS to catch late-arriving records.
 
 Sourcetype: openai:usage:logs
 """
@@ -145,36 +145,38 @@ class UsageCollector:
             params = {
                 "start_time": start_ts,
                 "end_time": end_ts,
-                "bucket_width": "1d",
-                "limit": occ.MAX_DAYS_PER_CALL,
+                "bucket_width": occ.USAGE_BUCKET_WIDTH,
+                "limit": occ.MAX_BUCKETS_PER_CALL,
             }
 
-            try:
-                response = self.client.get("/organization/usage/completions", params=params)
-            except OpenAIAPIError as exc:
-                self.logger.error(
-                    "API error fetching usage [%s - %s]: %s", current_start, current_end, exc
-                )
-                return
-
-            for bucket in response.get("data", []):
-                bucket_time = bucket.get("start_time")
-                for result in bucket.get("results", []):
-                    record = {
-                        "start_time": bucket_time,
-                        "end_time": bucket.get("end_time"),
-                    }
-                    record.update(result)
-                    event = smi.Event(
-                        data=json.dumps(record),
-                        time=bucket_time,
-                        source="openai://usage/{}".format(self.config["input_name"]),
-                        sourcetype=occ.USAGE_SOURCETYPE,
-                        host=occ.OPENAI_HOST,
-                        index=self.config["index"],
+            for endpoint in occ.USAGE_ENDPOINTS:
+                try:
+                    response = self.client.get(endpoint, params=params)
+                except OpenAIAPIError as exc:
+                    self.logger.error(
+                        "API error fetching %s [%s - %s]: %s",
+                        endpoint, current_start, current_end, exc,
                     )
-                    self.event_writer.write_event(event)
-                    total_events += 1
+                    continue
+
+                for bucket in response.get("data", []):
+                    bucket_time = bucket.get("start_time")
+                    for result in bucket.get("results", []):
+                        record = {
+                            "start_time": bucket_time,
+                            "end_time": bucket.get("end_time"),
+                        }
+                        record.update(result)
+                        event = smi.Event(
+                            data=json.dumps(record),
+                            time=bucket_time,
+                            source="openai://usage/{}".format(self.config["input_name"]),
+                            sourcetype=occ.USAGE_SOURCETYPE,
+                            host=occ.OPENAI_HOST,
+                            index=self.config["index"],
+                        )
+                        self.event_writer.write_event(event)
+                        total_events += 1
 
             current_start = current_end + datetime.timedelta(days=1)
 
