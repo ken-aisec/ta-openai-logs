@@ -1,0 +1,15 @@
+error_code,error_description,severity,remediation
+400,Bad request — invalid or malformed request body,medium,Check request parameters and JSON structure
+401,Unauthorized — invalid or missing API key,high,Verify Admin API key (sk-ant-admin-*) is correct and active in Splunk credential store
+403,Forbidden — insufficient permissions for this resource,high,Ensure you are using an Admin API key with the required organization permissions
+404,Not found — the requested resource or endpoint does not exist,low,Verify endpoint URL and resource identifiers
+409,Conflict — resource already exists or state conflict,low,Check for duplicate resource creation
+422,Unprocessable entity — valid JSON but semantic errors,medium,Review request body for logical errors
+429,Rate limit exceeded,medium,Reduce request frequency; check Anthropic rate limit tier
+500,Internal server error — Anthropic server-side issue,high,Retry with exponential backoff; check Anthropic status page
+502,Bad gateway,medium,Transient error; retry with backoff
+503,Service unavailable,high,Anthropic service disruption; check status.anthropic.com
+invalid_api_key,The provided API key is invalid or not an Admin key,high,Re-enter correct Admin API key (sk-ant-admin-*) in TA configuration
+permission_error,The API key lacks permission for this operation,high,Ensure Admin API key has the required organization admin role
+not_found_error,The requested resource does not exist,low,Verify organization ID and resource identifiers
+overloaded_error,Anthropic API is temporarily overloaded,medium,Retry with exponential backoff

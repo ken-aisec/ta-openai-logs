@@ -1,0 +1,404 @@
+{
+    "meta": {
+        "name": "ta_anthropic_logs",
+        "displayName": "Splunk Add-on for Anthropic Logs",
+        "version": "1.0.0",
+        "restRoot": "ta_anthropic_logs",
+        "schemaVersion": "0.0.10"
+    },
+    "pages": {
+        "configuration": {
+            "title": "Configuration",
+            "description": "Set up your Anthropic Admin API credentials and optional proxy settings.",
+            "tabs": [
+                {
+                    "name": "account",
+                    "title": "Account",
+                    "table": {
+                        "header": [
+                            {
+                                "field": "name",
+                                "label": "Account Name"
+                            },
+                            {
+                                "field": "username",
+                                "label": "Workspace ID"
+                            }
+                        ],
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Account Name",
+                            "type": "text",
+                            "required": true,
+                            "help": "Enter a unique name for this Anthropic account.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 50,
+                                    "errorMsg": "Length of Account Name should be between 1 and 50."
+                                },
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z]\\w*$",
+                                    "errorMsg": "Account Name must begin with a letter and consist of alphanumerics and underscores only."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "username",
+                            "label": "Workspace ID",
+                            "type": "text",
+                            "required": false,
+                            "help": "Anthropic Workspace ID (optional). Leave blank to use the default workspace.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 100,
+                                    "errorMsg": "Length of Workspace ID should be between 0 and 100."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "password",
+                            "label": "Admin API Key",
+                            "type": "text",
+                            "encrypted": true,
+                            "required": true,
+                            "help": "Your Anthropic Admin API key (sk-ant-admin-...). Create at console.anthropic.com under Organization > API Keys. Stored encrypted in Splunk's credential store.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 500,
+                                    "errorMsg": "Length of Admin API Key should be between 1 and 500."
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "proxy",
+                    "title": "Proxy",
+                    "entity": [
+                        {
+                            "field": "proxy_enabled",
+                            "label": "Enable",
+                            "type": "checkbox"
+                        },
+                        {
+                            "field": "proxy_type",
+                            "label": "Proxy Type",
+                            "type": "singleSelect",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "label": "http",
+                                        "value": "http"
+                                    },
+                                    {
+                                        "label": "socks4",
+                                        "value": "socks4"
+                                    },
+                                    {
+                                        "label": "socks5",
+                                        "value": "socks5"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "http"
+                        },
+                        {
+                            "field": "proxy_url",
+                            "label": "Host",
+                            "type": "text",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 4096,
+                                    "errorMsg": "Max host length is 4096."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_port",
+                            "label": "Port",
+                            "type": "text",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        1,
+                                        65535
+                                    ],
+                                    "isInteger": true,
+                                    "errorMsg": "Port must be an integer between 1 and 65535."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_username",
+                            "label": "Username",
+                            "type": "text",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 50,
+                                    "errorMsg": "Max username length is 50."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_password",
+                            "label": "Password",
+                            "type": "text",
+                            "encrypted": true,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 8192,
+                                    "errorMsg": "Max length of password is 8192."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_rdns",
+                            "label": "Remote DNS resolution",
+                            "type": "checkbox"
+                        }
+                    ]
+                },
+                {
+                    "type": "loggingTab"
+                }
+            ]
+        },
+        "inputs": {
+            "title": "Inputs",
+            "description": "Manage your Anthropic data collection inputs.",
+            "table": {
+                "header": [
+                    {
+                        "field": "name",
+                        "label": "Name"
+                    },
+                    {
+                        "field": "interval",
+                        "label": "Interval"
+                    },
+                    {
+                        "field": "index",
+                        "label": "Index"
+                    },
+                    {
+                        "field": "disabled",
+                        "label": "Status"
+                    }
+                ],
+                "moreInfo": [
+                    {
+                        "field": "name",
+                        "label": "Name"
+                    },
+                    {
+                        "field": "interval",
+                        "label": "Interval"
+                    },
+                    {
+                        "field": "index",
+                        "label": "Index"
+                    },
+                    {
+                        "field": "disabled",
+                        "label": "Status"
+                    },
+                    {
+                        "field": "account",
+                        "label": "Account"
+                    },
+                    {
+                        "field": "start_date",
+                        "label": "Start Date"
+                    }
+                ],
+                "actions": [
+                    "edit",
+                    "delete",
+                    "clone"
+                ]
+            },
+            "services": [
+                {
+                    "name": "anthropic_usage_logs",
+                    "title": "Anthropic Usage Logs",
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Name",
+                            "type": "text",
+                            "required": true,
+                            "help": "Enter a unique name for this input.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z]\\w*$",
+                                    "errorMsg": "Input Name must begin with a letter and consist of alphanumerics and underscores only."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "interval",
+                            "label": "Interval",
+                            "type": "text",
+                            "required": true,
+                            "help": "Polling interval in seconds. Usage data is available within ~5 minutes; 600 (10 minutes) is recommended.",
+                            "defaultValue": "600",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        60,
+                                        86400
+                                    ],
+                                    "isInteger": true,
+                                    "errorMsg": "Interval must be between 60 and 86400 seconds."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "text",
+                            "required": true,
+                            "help": "Splunk index to store events.",
+                            "defaultValue": "default",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80,
+                                    "errorMsg": "Index name must be between 1 and 80 characters."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "account",
+                            "label": "Account",
+                            "type": "singleSelect",
+                            "required": true,
+                            "help": "Select the Anthropic account to use.",
+                            "options": {
+                                "referenceName": "account"
+                            }
+                        },
+                        {
+                            "field": "start_date",
+                            "label": "Start Date",
+                            "type": "text",
+                            "required": false,
+                            "help": "Earliest date to collect usage data (YYYY-MM-DD). Defaults to 7 days ago if not set.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^(\\d{4}-\\d{2}-\\d{2})?$",
+                                    "errorMsg": "Start date must be in YYYY-MM-DD format or left blank."
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "anthropic_claude_code",
+                    "title": "Anthropic Claude Code Analytics",
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Name",
+                            "type": "text",
+                            "required": true,
+                            "help": "Enter a unique name for this input.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z]\\w*$",
+                                    "errorMsg": "Input Name must begin with a letter and consist of alphanumerics and underscores only."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "interval",
+                            "label": "Interval",
+                            "type": "text",
+                            "required": true,
+                            "help": "Polling interval in seconds. Claude Code data has ~1 hour lag; 3600 (1 hour) is recommended.",
+                            "defaultValue": "3600",
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        60,
+                                        86400
+                                    ],
+                                    "isInteger": true,
+                                    "errorMsg": "Interval must be between 60 and 86400 seconds."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "index",
+                            "label": "Index",
+                            "type": "text",
+                            "required": true,
+                            "help": "Splunk index to store events.",
+                            "defaultValue": "default",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80,
+                                    "errorMsg": "Index name must be between 1 and 80 characters."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "account",
+                            "label": "Account",
+                            "type": "singleSelect",
+                            "required": true,
+                            "help": "Select the Anthropic account to use.",
+                            "options": {
+                                "referenceName": "account"
+                            }
+                        },
+                        {
+                            "field": "start_date",
+                            "label": "Start Date",
+                            "type": "text",
+                            "required": false,
+                            "help": "Earliest date to collect analytics (YYYY-MM-DD). Defaults to 7 days ago if not set.",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^(\\d{4}-\\d{2}-\\d{2})?$",
+                                    "errorMsg": "Start date must be in YYYY-MM-DD format or left blank."
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
